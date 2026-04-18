@@ -85,9 +85,9 @@ export function FeaturedArticles() {
                   <span>{hero.readTime} min read</span>
                 </div>
                 <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-                  <span>{hero.views.toLocaleString()} views</span>
-                  <span>{hero.likes.toLocaleString()} likes</span>
-                  <span>{hero.commentsCount.toLocaleString()} comments</span>
+                  <span>{hero.views.toLocaleString('en-US')} views</span>
+                  <span>{hero.likes.toLocaleString('en-US')} likes</span>
+                  <span>{hero.commentsCount.toLocaleString('en-US')} comments</span>
                 </div>
                 <div className="flex flex-wrap items-center gap-3 rounded-xl border border-border bg-muted/40 p-3">
                   <div className="h-10 w-10 overflow-hidden rounded-full border border-border">

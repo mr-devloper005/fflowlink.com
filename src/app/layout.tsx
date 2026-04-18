@@ -14,14 +14,16 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  const { recipe, brandPack } = getFactoryState()
+  const { recipe, brandPack, productKind } = getFactoryState()
+  const editorialChrome = productKind === 'editorial'
 
   return (
     <html lang="en" suppressHydrationWarning>
       <body
         data-site-shell={recipe.homeLayout}
+        data-product-kind={productKind}
         data-motion-pack={recipe.motionPack}
-        className={`${brandPack.bodyClassName} ${brandPack.fontClassName} ${brandPack.paletteClassName}`}
+        className={`${brandPack.bodyClassName} ${brandPack.fontClassName} ${brandPack.paletteClassName}${editorialChrome ? ' editorial-app-chrome' : ''}`}
       >
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <AuthProvider>

@@ -265,7 +265,7 @@ export function ClassifiedAdCard({ ad }: { ad: ClassifiedAd }) {
               {ad.title}
             </h3>
             <p className="mb-3 text-xl font-bold text-foreground">
-              ${ad.price.toLocaleString()}
+              ${ad.price.toLocaleString('en-US')}
             </p>
             <div className="flex items-center justify-between text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
@@ -313,7 +313,7 @@ export function ProfileCard({ user, compact = false }: { user: User; compact?: b
                 <p className="line-clamp-2 text-sm text-muted-foreground">{user.bio}</p>
               )}
               <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
-                <span>{user.followers.toLocaleString()} followers</span>
+                <span>{user.followers.toLocaleString('en-US')} followers</span>
                 {user.location && (
                   <span className="flex items-center gap-1">
                     <MapPin className="h-3 w-3" />

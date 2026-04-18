@@ -11,8 +11,20 @@ interface AuthContextType {
   isLoading: boolean
   login: (email: string, password: string) => Promise<void>
   logout: () => void
-  signup: (name: string, email: string, password: string) => Promise<void>
+  signup: (name: string, email: string, password: string, extras?: { bio?: string }) => Promise<void>
   updateUser: (updates: Partial<User>) => void
+}
+
+const LOCAL_USER_TEMPLATE: User = {
+  id: 'local-template',
+  name: 'Reader',
+  email: '',
+  avatar: '/placeholder.svg?height=80&width=80',
+  bio: '',
+  joinedDate: '',
+  followers: 0,
+  following: 0,
+  isVerified: false,
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -33,8 +45,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       month: 'long',
       year: 'numeric',
     })
+    const base = currentUser ?? LOCAL_USER_TEMPLATE
     return {
-      ...currentUser,
+      ...base,
       id: `user-${Date.now()}`,
       joinedDate,
       followers: 0,
@@ -71,16 +84,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  const signup = useCallback(async (name: string, email: string, password: string) => {
+  const signup = useCallback(async (name: string, email: string, password: string, extras?: { bio?: string }) => {
     setIsLoading(true)
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500))
     
-    // Mock signup
+    // Mock signup — persisted in localStorage via saveToStorage
     if (name && email && password) {
+      const bio = extras?.bio?.trim()
       const nextUser = buildUser({
         name,
         email,
+        ...(bio ? { bio } : {}),
       })
       setUser(nextUser)
       saveToStorage(storageKeys.user, nextUser)

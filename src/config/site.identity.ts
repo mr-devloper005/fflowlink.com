@@ -1,10 +1,10 @@
 export const siteIdentity = {
   code: process.env.NEXT_PUBLIC_SITE_CODE || 'fjkb3lw2rs',
   name: process.env.NEXT_PUBLIC_SITE_NAME || 'Fflowlink',
-  tagline: process.env.NEXT_PUBLIC_SITE_TAGLINE || 'Article platform',
+  tagline: process.env.NEXT_PUBLIC_SITE_TAGLINE || 'Independent articles & desk notes',
   description:
     process.env.NEXT_PUBLIC_SITE_DESCRIPTION ||
-    'A article site for Fflowlink, built for clean discovery and structured publishing.',
+    'Fflowlink is an independent editorial desk: explainers, investigations, and short notes for readers who want the full picture.',
   domain: process.env.NEXT_PUBLIC_SITE_DOMAIN || 'fflowlink.com',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://fflowlink.com',
   ogImage: process.env.NEXT_PUBLIC_SITE_OG_IMAGE || '/og-default.png',
