@@ -60,7 +60,7 @@ export default function DashboardAdDetailPage({ params }: { params: Promise<{ id
         <CardContent className="p-6 space-y-4">
           <Badge variant="secondary">{ad.category}</Badge>
           <p className="text-sm text-muted-foreground">{ad.location}</p>
-          <p className="text-sm text-muted-foreground">${ad.price.toLocaleString()}</p>
+          <p className="text-sm text-muted-foreground">${ad.price.toLocaleString('en-US')}</p>
           <div className="flex flex-wrap items-center gap-3">
             <Select
               defaultValue={ad.status}

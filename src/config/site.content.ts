@@ -2,66 +2,67 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Article platform',
+    tagline: 'Independent articles',
   },
   footer: {
-    tagline: 'Article platform',
+    tagline: 'Independent articles',
   },
   hero: {
-    badge: 'Latest stories and visuals',
-    title: ['A thoughtful home for', 'stories, visuals, and discovery.'],
-    description: 'A Article site for Fflowlink, built for clean discovery and structured publishing.',
+    badge: 'This week on Fflowlink',
+    title: ['Reporting worth', 'sitting down with.'],
+    description:
+      'Fflowlink publishes explainers, field reporting, and desk notes for readers who want clarity first—then depth.',
     primaryCta: {
       label: 'Read latest posts',
       href: '/articles',
     },
     secondaryCta: {
-      label: 'Explore visuals',
-      href: '/images',
+      label: 'About Fflowlink',
+      href: '/about',
     },
-    searchPlaceholder: 'Search stories, visuals, listings, and more',
+    searchPlaceholder: 'search articles with keywords or like this',
     focusLabel: 'Focus',
-    featureCardBadge: 'latest cover rotation',
-    featureCardTitle: 'Latest posts shape the visual identity of the homepage.',
+    featureCardBadge: 'Lead story',
+    featureCardTitle: 'What we are publishing now',
     featureCardDescription:
-      'Recent images and stories stay at the center of the experience without changing any core platform behavior.',
+      'Start with the charter on how we work, then follow the desk notes for shorter updates between long features.',
   },
   home: {
     metadata: {
-      title: 'Stories, visuals, and discoverable content',
-      description: 'A Article site for Fflowlink, built for clean discovery and structured publishing.',
-      openGraphTitle: 'Stories, visuals, and discoverable content',
+      title: 'Fflowlink — reporting, explainers, and desk notes',
+      description: 'Independent coverage and explainers from the Fflowlink newsroom. Updated through the week.',
+      openGraphTitle: 'Fflowlink — reporting, explainers, and desk notes',
       openGraphDescription:
-        'Discover articles, visual posts, and connected content through a calmer reading-first experience.',
-      keywords: ['story platform', 'article site', 'visual content', 'content discovery'],
+        'Field reporting, line edits, and the occasional manifesto on how we publish—written to be read, not skimmed.',
+      keywords: ['Fflowlink', 'articles', 'reporting', 'explainers', 'newsroom', 'independent'],
     },
-    introBadge: 'About the platform',
-    introTitle: 'Built for reading, browsing, and connecting different kinds of content.',
+    introBadge: 'Newsroom',
+    introTitle: 'Stories filed with care, edited for busy readers.',
     introParagraphs: [
-      'This site brings together article-style reading, visual browsing, and structured discovery so visitors can move naturally between different content types.',
-      'Instead of separating stories, visuals, and supporting resources into disconnected surfaces, the platform keeps them connected in one place with consistent navigation and easier exploration.',
-      'Whether someone starts with a story, an image-led post, a listing, or a resource page, they can keep discovering related content without friction.',
+      'We publish on a steady beat: investigations when the facts warrant them, explainers when confusion is high, and desk notes when the newsroom itself has something to say.',
+      'Every piece is edited twice—once for accuracy, once for voice—so the site feels consistent even when topics jump from policy to culture to tech.',
+      'Corrections run at the top of the file with a timestamp. If we get something wrong, we say so plainly and fix the record.',
     ],
     sideBadge: 'At a glance',
     sidePoints: [
-      'Reading-first homepage with stronger emphasis on stories and imagery.',
-      'Connected sections for articles, visuals, listings, and supporting resources.',
-      'Cleaner browsing rhythm designed to make exploration feel easier.',
-      'Lightweight interactions that keep the experience fast and readable.',
+      'Morning reads under fifteen minutes when you only have a coffee in hand.',
+      'Weekend features when you want context, not just headlines.',
+      'A search bar tuned for article keywords—type the subject you care about.',
+      'A writing desk that keeps drafts, edits, and publish checks in one place.',
     ],
     primaryLink: {
       label: 'Browse articles',
       href: '/articles',
     },
     secondaryLink: {
-      label: 'See visuals',
-      href: '/images',
+      label: 'About the desk',
+      href: '/about',
     },
   },
   cta: {
     badge: 'Start exploring',
-    title: 'Explore articles, visuals, and resources through one connected experience.',
-    description: 'A Article site for Fflowlink, built for clean discovery and structured publishing.',
+    title: 'Move from cover stories to explainers in one calm editorial system.',
+    description: 'Fflowlink keeps long-form articles and desk notes visually aligned—premium, fast, and easy to scan.',
     primaryCta: {
       label: 'Read latest posts',
       href: '/articles',
@@ -78,31 +79,31 @@ export const siteContent = {
 export const taskPageMetadata: Record<Exclude<TaskKey, 'comment' | 'org' | 'social'>, { title: string; description: string }> = {
   article: {
     title: 'Articles and stories',
-    description: 'A Article site for Fflowlink, built for clean discovery and structured publishing.',
+    description: 'Long-form features, explainers, and essays on Fflowlink.',
   },
   listing: {
     title: 'Listings and discoverable pages',
-    description: 'A Article site for Fflowlink, built for clean discovery and structured publishing.',
+    description: 'Structured listings when you need directory-grade detail.',
   },
   classified: {
     title: 'Classifieds and announcements',
-    description: 'A Article site for Fflowlink, built for clean discovery and structured publishing.',
+    description: 'Time-sensitive posts with marketplace-forward layout.',
   },
   image: {
     title: 'Images and visual posts',
-    description: 'A Article site for Fflowlink, built for clean discovery and structured publishing.',
+    description: 'Gallery-led stories with immersive media framing.',
   },
   profile: {
     title: 'Profiles and public pages',
-    description: 'A Article site for Fflowlink, built for clean discovery and structured publishing.',
+    description: 'People and teams presented with editorial polish.',
   },
   sbm: {
     title: 'Curated links and saved resources',
-    description: 'A Article site for Fflowlink, built for clean discovery and structured publishing.',
+    description: 'Research shelves and bookmark lanes tuned for density.',
   },
   pdf: {
     title: 'PDFs and downloadable resources',
-    description: 'A Article site for Fflowlink, built for clean discovery and structured publishing.',
+    description: 'Documents and downloads with crisp metadata.',
   },
 }
 
@@ -126,15 +127,11 @@ export const taskIntroCopy: Record<
   article: {
     title: 'Articles, stories, and long-form reading',
     paragraphs: [
-      'This section is built for stories, explainers, guides, and long-form reading across topics and interests.',
-      'Articles connect with listings, images, resources, and other content types so deeper reading can lead naturally into related discovery.',
-      'Use this section to browse thoughtful posts, revisit useful writing, and move into supporting content when you want more context.',
+      'This section is for explainers, investigations, and desk notes written for readers who want context—not a headline that evaporates in a day.',
+      'Pieces are edited for clarity first: short sections, honest uncertainty, and quotes that sound like real people.',
+      'Browse below for recent work. When the wire is quiet, we still show representative samples so you can see how stories render on this site.',
     ],
-    links: [
-      { label: 'Explore listings', href: '/listings' },
-      { label: 'Open images', href: '/images' },
-      { label: 'Browse resources', href: '/pdf' },
-    ],
+    links: [],
   },
   classified: {
     title: 'Classifieds, offers, and timely updates',
@@ -215,16 +212,16 @@ export const taskIntroCopy: Record<
     ],
   },
   comment: {
-    title: 'Comments and contextual responses',
+    title: 'Commentary and short responses',
     paragraphs: [
-      'Comments surface responses connected directly to articles and help keep discussion close to the writing it belongs to.',
-      'This layer adds perspective and reaction without needing a separate standalone content format.',
-      'Use comments as supporting context beneath stories, then continue exploring related content from the same topic area.',
+      'Shorter reactions and desk notes that sit beside reporting—styled like the rest of the site.',
+      'Typography matches long-form articles so the reading experience stays consistent.',
+      'Use this lane for follow-ups, clarifications, and annotated reading lists.',
     ],
     links: [
-      { label: 'Explore articles', href: '/articles' },
-      { label: 'View listings', href: '/listings' },
-      { label: 'See classifieds', href: '/classifieds' },
+      { label: 'Read features', href: '/articles' },
+      { label: 'Search the archive', href: '/search' },
+      { label: 'Contact editors', href: '/contact' },
     ],
   },
   org: {

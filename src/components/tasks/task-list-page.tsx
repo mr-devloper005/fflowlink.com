@@ -27,16 +27,17 @@ const taskIcons: Record<TaskKey, any> = {
 const variantShells = {
   'listing-directory': 'bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.08),transparent_24%),linear-gradient(180deg,#f8fbff_0%,#ffffff_100%)]',
   'listing-showcase': 'bg-[linear-gradient(180deg,#ffffff_0%,#f4f9ff_100%)]',
-  'article-editorial': 'bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.08),transparent_20%),linear-gradient(180deg,#fff8ef_0%,#ffffff_100%)]',
-  'article-journal': 'bg-[linear-gradient(180deg,#fffdf9_0%,#f7f1ea_100%)]',
+  'article-editorial': 'bg-[radial-gradient(ellipse_80%_50%_at_0%_-10%,rgba(3,174,210,0.12),transparent_45%),linear-gradient(180deg,#f8fdff_0%,#ffffff_55%)]',
+  'article-journal': 'bg-[linear-gradient(180deg,#fffdf9_0%,#f2fbfd_100%)]',
+  'comment-editorial': 'bg-[radial-gradient(ellipse_70%_45%_at_100%_0%,rgba(209,32,82,0.08),transparent_42%),linear-gradient(180deg,#fff9fb_0%,#f6fdff_100%)]',
   'image-masonry': 'bg-[linear-gradient(180deg,#09101d_0%,#111c2f_100%)] text-white',
-  'image-portfolio': 'bg-[linear-gradient(180deg,#07111f_0%,#13203a_100%)] text-white',
+  'image-portfolio': 'bg-[linear-gradient(180deg,#051018_0%,#0f2233_100%)] text-white',
   'profile-creator': 'bg-[linear-gradient(180deg,#0a1120_0%,#101c34_100%)] text-white',
-  'profile-business': 'bg-[linear-gradient(180deg,#f6fbff_0%,#ffffff_100%)]',
-  'classified-bulletin': 'bg-[linear-gradient(180deg,#edf3e4_0%,#ffffff_100%)]',
-  'classified-market': 'bg-[linear-gradient(180deg,#f4f6ef_0%,#ffffff_100%)]',
-  'sbm-curation': 'bg-[linear-gradient(180deg,#fff7ee_0%,#ffffff_100%)]',
-  'sbm-library': 'bg-[linear-gradient(180deg,#f7f8fc_0%,#ffffff_100%)]',
+  'profile-business': 'bg-[radial-gradient(circle_at_top_right,rgba(3,174,210,0.1),transparent_35%),linear-gradient(180deg,#ffffff_0%,#f3f8fb_100%)]',
+  'classified-bulletin': 'bg-[linear-gradient(180deg,#fff8f2_0%,#ffffff_100%)]',
+  'classified-market': 'bg-[linear-gradient(135deg,#fffdf6_0%,#fff4ec_45%,#ffffff_100%)]',
+  'sbm-curation': 'bg-[linear-gradient(180deg,#f7fbfc_0%,#ffffff_100%)]',
+  'sbm-library': 'bg-[linear-gradient(180deg,#f3f7fa_0%,#fafdff_100%)]',
 } as const
 
 export async function TaskListPage({ task, category }: { task: TaskKey; category?: string }) {
@@ -69,13 +70,13 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         input: 'border-white/10 bg-white/6 text-white',
         button: 'bg-white text-slate-950 hover:bg-slate-200',
       }
-    : layoutKey.startsWith('article') || layoutKey.startsWith('sbm')
+    : layoutKey.startsWith('article') || layoutKey.startsWith('comment') || layoutKey.startsWith('sbm')
       ? {
-          muted: 'text-[#72594a]',
-          panel: 'border border-[#dbc6b6] bg-white/90',
-          soft: 'border border-[#dbc6b6] bg-[#fff8ef]',
-          input: 'border border-[#dbc6b6] bg-white text-[#2f1d16]',
-          button: 'bg-[#2f1d16] text-[#fff4e4] hover:bg-[#452920]',
+          muted: 'text-slate-600',
+          panel: 'border border-cyan-500/15 bg-white/95 shadow-[0_18px_50px_rgba(10,22,40,0.06)]',
+          soft: 'border border-[#F8DE22]/40 bg-[linear-gradient(145deg,rgba(248,222,34,0.14),white)]',
+          input: 'border border-slate-200 bg-white text-slate-900',
+          button: 'bg-[#03AED2] text-white hover:brightness-95',
         }
       : {
           muted: 'text-slate-600',
@@ -146,16 +147,24 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
           </section>
         ) : null}
 
-        {layoutKey === 'article-editorial' || layoutKey === 'article-journal' ? (
-          <section className="mb-12 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+        {layoutKey === 'article-editorial' || layoutKey === 'article-journal' || layoutKey === 'comment-editorial' ? (
+          <section className={`mb-12 grid gap-8 lg:items-start ${task === 'comment' ? 'lg:grid-cols-[0.95fr_1.05fr]' : 'lg:grid-cols-[1.1fr_0.9fr]'}`}>
             <div>
               <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
               <h1 className="mt-3 max-w-4xl text-5xl font-semibold tracking-[-0.05em] text-foreground">{taskConfig?.description || 'Latest posts'}</h1>
-              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>This reading surface uses slower pacing, stronger typographic hierarchy, and more breathing room so long-form content feels intentional rather than squeezed into a generic feed.</p>
+              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>
+                {task === 'comment'
+                  ? 'Threaded voices sit beside the reporting—built for reactions that stay readable and close to the story.'
+                  : 'This reading surface uses slower pacing, expressive type, and generous rhythm so long-form work feels authored—not templated.'}
+              </p>
             </div>
             <div className={`rounded-[2rem] p-6 ${ui.panel}`}>
-              <p className={`text-xs font-semibold uppercase tracking-[0.24em] ${ui.muted}`}>Reading note</p>
-              <p className={`mt-4 text-sm leading-7 ${ui.muted}`}>Use category filters to jump between topics without collapsing the page into the same repeated card rhythm used by other task types.</p>
+              <p className={`text-xs font-semibold uppercase tracking-[0.24em] ${ui.muted}`}>{task === 'comment' ? 'Conversation filter' : 'Reading note'}</p>
+              <p className={`mt-4 text-sm leading-7 ${ui.muted}`}>
+                {task === 'comment'
+                  ? 'Filter by category to move across discussion lanes while keeping the tone editorial, not noisy.'
+                  : 'Use category filters to jump between topics without collapsing the page into the same repeated card rhythm used by other task types.'}
+              </p>
               <form className="mt-5 flex items-center gap-3" action={taskConfig?.route || '#'}>
                 <select name="category" defaultValue={normalizedCategory} className={`h-11 flex-1 rounded-xl px-3 text-sm ${ui.input}`}>
                   <option value="all">All categories</option>
@@ -176,12 +185,14 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
                 <Icon className="h-3.5 w-3.5" /> Visual feed
               </div>
               <h1 className="mt-5 text-5xl font-semibold tracking-[-0.05em]">{taskConfig?.description || 'Latest posts'}</h1>
-              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>This surface leans into stronger imagery, larger modules, and more expressive spacing so visual content feels materially different from reading and directory pages.</p>
+              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>
+                A gallery-forward rhythm: wider tiles, deeper blacks, and cyan sparks so imagery reads as the hero—not an accessory.
+              </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <div className={`min-h-[220px] rounded-[2rem] ${ui.panel}`} />
-              <div className={`min-h-[220px] rounded-[2rem] ${ui.soft}`} />
-              <div className={`col-span-2 min-h-[120px] rounded-[2rem] ${ui.panel}`} />
+              <div className={`min-h-[220px] rounded-[2rem] border border-cyan-400/15 ${ui.panel}`} />
+              <div className={`min-h-[220px] rounded-[2rem] border border-white/10 ${ui.soft}`} />
+              <div className={`col-span-2 min-h-[120px] rounded-[2rem] border border-[#F8DE22]/25 ${ui.panel}`} />
             </div>
           </section>
         ) : null}
@@ -189,11 +200,13 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
         {layoutKey === 'profile-creator' || layoutKey === 'profile-business' ? (
           <section className={`mb-12 rounded-[2.2rem] p-8 shadow-[0_24px_70px_rgba(15,23,42,0.1)] ${ui.panel}`}>
             <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-              <div className={`min-h-[240px] rounded-[2rem] ${ui.soft}`} />
+              <div className={`min-h-[240px] rounded-[2rem] border border-cyan-500/10 ${ui.soft}`} />
               <div>
                 <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
-                <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">Profiles with stronger identity, trust, and reputation cues.</h1>
-                <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>This layout prioritizes the person or business surface first, then lets the feed continue below without borrowing the same visual logic used by articles or listings.</p>
+                <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">People and teams, framed like mastheads—not business cards.</h1>
+                <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>
+                  Portraits lead, proof points follow, and the list below keeps a cooler, directory-style cadence than article pages.
+                </p>
               </div>
             </div>
           </section>
@@ -203,12 +216,12 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
           <section className="mb-12 grid gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
             <div className={`rounded-[1.8rem] p-6 ${ui.panel}`}>
               <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
-              <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">Fast-moving notices, offers, and responses in a compact board format.</h1>
+              <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">Bright notices, sharp deadlines, and a marketplace pulse.</h1>
             </div>
             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-              {['Quick to scan', 'Shorter response path', 'Clearer urgency cues'].map((item) => (
-                <div key={item} className={`rounded-[1.5rem] p-5 ${ui.soft}`}>
-                  <p className="text-sm font-semibold">{item}</p>
+              {['Scan-first tiles', 'Price & location forward', 'Amber urgency accents'].map((item) => (
+                <div key={item} className={`rounded-[1.5rem] border border-[#F45B26]/15 p-5 ${ui.soft}`}>
+                  <p className="text-sm font-semibold text-slate-900">{item}</p>
                 </div>
               ))}
             </div>
@@ -219,8 +232,10 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
           <section className="mb-12 grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
             <div>
               <p className={`text-xs uppercase tracking-[0.3em] ${ui.muted}`}>{taskConfig?.label || task}</p>
-              <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">Curated resources arranged more like collections than a generic post feed.</h1>
-              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>Bookmarks, saved resources, and reference-style items need calmer grouping and lighter metadata. This variant gives them that separation.</p>
+              <h1 className="mt-3 text-4xl font-semibold tracking-[-0.05em] text-foreground">A research shelf: links, context, and quiet density.</h1>
+              <p className={`mt-5 max-w-2xl text-sm leading-8 ${ui.muted}`}>
+                Collections stay text-forward with tight metadata—distinct from article romance or classified urgency.
+              </p>
             </div>
             <div className={`rounded-[2rem] p-6 ${ui.panel}`}>
               <p className={`text-xs uppercase tracking-[0.24em] ${ui.muted}`}>Collection filter</p>
@@ -243,15 +258,38 @@ export async function TaskListPage({ task, category }: { task: TaskKey; category
             {intro.paragraphs.map((paragraph) => (
               <p key={paragraph.slice(0, 40)} className={`mt-4 text-sm leading-7 ${ui.muted}`}>{paragraph}</p>
             ))}
-            <div className="mt-4 flex flex-wrap gap-4 text-sm">
-              {intro.links.map((link) => (
-                <a key={link.href} href={link.href} className="font-semibold text-foreground hover:underline">{link.label}</a>
-              ))}
-            </div>
+            {intro.links.length ? (
+              <div className="mt-4 flex flex-wrap gap-4 text-sm">
+                {intro.links.map((link) => (
+                  <a key={link.href} href={link.href} className="font-semibold text-foreground hover:underline">{link.label}</a>
+                ))}
+              </div>
+            ) : null}
           </section>
         ) : null}
 
-        <TaskListClient task={task} initialPosts={posts} category={normalizedCategory} />
+        <TaskListClient
+          task={task}
+          initialPosts={posts}
+          category={normalizedCategory}
+          gridClassName={
+            task === 'article' || task === 'comment'
+              ? 'mx-auto flex max-w-4xl flex-col gap-7'
+              : task === 'listing'
+                ? 'grid gap-6 sm:grid-cols-2 xl:grid-cols-3'
+                : task === 'classified'
+                  ? 'grid gap-4 sm:grid-cols-2 lg:grid-cols-4'
+                  : task === 'image'
+                    ? 'grid gap-4 sm:grid-cols-2 md:grid-cols-3'
+                    : task === 'profile'
+                      ? 'grid gap-8 lg:grid-cols-2'
+                      : task === 'sbm'
+                        ? 'grid gap-5 md:grid-cols-2'
+                        : task === 'pdf'
+                          ? 'grid gap-5 sm:grid-cols-2 lg:grid-cols-4'
+                          : 'grid gap-6 sm:grid-cols-2 lg:grid-cols-4'
+          }
+        />
       </main>
       <Footer />
     </div>
