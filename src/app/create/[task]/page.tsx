@@ -152,8 +152,8 @@ const FORM_CONFIG: Record<TaskKey, { title: string; description: string; fields:
     ],
   },
   comment: {
-    title: "Create Blog Comment",
-    description: "Store a local-only blog comment entry.",
+    title: "Create commentary entry",
+    description: "Store a local-only commentary entry.",
     fields: [
       { key: "title", label: "Comment title", type: "text", required: true },
       { key: "summary", label: "Short summary", type: "textarea", required: true },

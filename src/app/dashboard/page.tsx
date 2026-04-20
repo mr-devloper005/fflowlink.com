@@ -162,28 +162,28 @@ export default function DashboardPage() {
     () => [
       {
         title: "Total Views",
-        value: totalViews.toLocaleString(),
+        value: totalViews.toLocaleString('en-US'),
         change: "Live",
         trend: "up",
         icon: Eye,
       },
       {
         title: "Total Likes",
-        value: totalLikes.toLocaleString(),
+        value: totalLikes.toLocaleString('en-US'),
         change: "Live",
         trend: "up",
         icon: Heart,
       },
       {
         title: "Comments",
-        value: totalComments.toLocaleString(),
+        value: totalComments.toLocaleString('en-US'),
         change: "Live",
         trend: totalComments > 0 ? "up" : "down",
         icon: MessageSquare,
       },
       {
         title: "Followers",
-        value: (user?.followers ?? 0).toLocaleString(),
+        value: (user?.followers ?? 0).toLocaleString('en-US'),
         change: "Live",
         trend: "up",
         icon: TrendingUp,
@@ -244,7 +244,7 @@ export default function DashboardPage() {
         status: ad.status,
         views: ad.views ?? 0,
         messages: 0,
-        price: `$${ad.price.toLocaleString()}`,
+        price: `$${ad.price.toLocaleString('en-US')}`,
         date: new Date(ad.createdAt).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",

@@ -4,7 +4,23 @@ import { useMemo, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Search, Menu, X, User, FileText, Building2, LayoutGrid, Tag, Image as ImageIcon, ChevronRight, Sparkles, MapPin, Plus } from 'lucide-react'
+import {
+  Search,
+  Menu,
+  X,
+  User,
+  FileText,
+  Building2,
+  LayoutGrid,
+  Tag,
+  Image as ImageIcon,
+  ChevronRight,
+  Sparkles,
+  MapPin,
+  Plus,
+  Home,
+  PenLine,
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/lib/auth-context'
 import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
@@ -41,12 +57,12 @@ const variantClasses = {
     mobile: 'border-t border-slate-200/70 bg-white/95',
   },
   'editorial-bar': {
-    shell: 'border-b border-[#d7c4b3] bg-[#fff7ee]/90 text-[#2f1d16] backdrop-blur-xl',
-    logo: 'rounded-full border border-[#dbc6b6] bg-white shadow-sm',
-    active: 'bg-[#2f1d16] text-[#fff4e4]',
-    idle: 'text-[#72594a] hover:bg-[#f2e5d4] hover:text-[#2f1d16]',
-    cta: 'rounded-full bg-[#2f1d16] text-[#fff4e4] hover:bg-[#452920]',
-    mobile: 'border-t border-[#dbc6b6] bg-[#fff7ee]',
+    shell: 'border-b border-cyan-500/15 bg-white/90 text-slate-900 backdrop-blur-xl',
+    logo: 'rounded-2xl border border-cyan-500/20 bg-white shadow-sm',
+    active: 'bg-cyan-500/10 text-slate-900',
+    idle: 'text-slate-600 hover:bg-cyan-500/8 hover:text-slate-900',
+    cta: 'rounded-full bg-[#03AED2] text-white shadow-sm hover:brightness-95',
+    mobile: 'border-t border-border bg-card',
   },
   'floating-bar': {
     shell: 'border-b border-transparent bg-transparent text-white',
@@ -116,7 +132,7 @@ export function Navbar() {
           <div className="flex min-w-0 items-center gap-4">
             <Link href="/" className="flex shrink-0 items-center gap-3">
               <div className={cn('flex h-12 w-12 items-center justify-center overflow-hidden p-1.5', palette.logo)}>
-                <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
+                <img src="/favicon.png?v=20260418" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
               </div>
               <div className="min-w-0 hidden sm:block">
                 <span className="block truncate text-xl font-semibold">{SITE_CONFIG.name}</span>
@@ -200,10 +216,118 @@ export function Navbar() {
     )
   }
 
-  const style = variantClasses[recipe.navbar]
   const isFloating = recipe.navbar === 'floating-bar'
   const isEditorial = recipe.navbar === 'editorial-bar'
   const isUtility = recipe.navbar === 'utility-bar'
+
+  if (isEditorial) {
+    const articleRoute = SITE_CONFIG.tasks.find((t) => t.key === 'article')?.route || '/articles'
+    const sidebarNav = [
+      { href: '/', label: 'Home', icon: Home, match: (p: string) => p === '/' },
+      {
+        href: articleRoute,
+        label: 'Articles',
+        icon: FileText,
+        match: (p: string) => p.startsWith(articleRoute),
+      },
+      { href: '/search', label: 'Search', icon: Search, match: (p: string) => p.startsWith('/search') },
+    ]
+
+    return (
+      <>
+        {isMobileMenuOpen ? (
+          <button
+            type="button"
+            className="fixed inset-0 z-[55] bg-slate-900/40 backdrop-blur-sm lg:hidden"
+            aria-label="Close menu"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+        ) : null}
+
+        <aside
+          className={cn(
+            'fixed inset-y-0 left-0 z-[60] flex w-[var(--app-sidebar-w)] flex-col border-r border-cyan-500/10 bg-[linear-gradient(180deg,#f6fdff_0%,#ffffff_55%,#fffdf6_100%)] shadow-[4px_0_24px_rgba(10,22,40,0.04)] transition-transform duration-300 ease-out lg:translate-x-0',
+            isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
+          )}
+        >
+          <div className="flex min-h-[var(--app-topbar-h)] items-center gap-3 border-b border-cyan-500/10 px-4 py-3">
+            <Link href="/" className="flex min-w-0 flex-1 items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-cyan-500/15 bg-white p-1.5 shadow-sm">
+                <img src="/favicon.png?v=20260418" alt="" width="56" height="56" className="h-full w-full object-contain" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <span className="block truncate text-xl font-semibold tracking-tight text-slate-900 sm:text-2xl">{SITE_CONFIG.name}</span>
+              </div>
+            </Link>
+          </div>
+
+          <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-3 py-4 pb-6">
+            <p className="px-2 pb-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-slate-400">Read</p>
+            {sidebarNav.map((item) => {
+              const active = item.match(pathname)
+              const Icon = item.icon
+              return (
+                <Link
+                  key={item.href + item.label}
+                  href={item.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={cn(
+                    'group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors',
+                    active
+                      ? 'border-l-[3px] border-[#03AED2] bg-cyan-500/10 text-slate-900'
+                      : 'border-l-[3px] border-transparent text-slate-600 hover:bg-cyan-500/5 hover:text-slate-900',
+                  )}
+                >
+                  <Icon className={cn('h-4 w-4 shrink-0', active ? 'text-[#03AED2]' : 'text-slate-400 group-hover:text-[#03AED2]')} />
+                  <span className="truncate">{item.label}</span>
+                </Link>
+              )
+            })}
+          </nav>
+        </aside>
+
+        <header
+          className={cn(
+            'fixed top-0 right-0 z-[58] flex h-[var(--app-topbar-h)] items-center gap-3 border-b border-cyan-500/10 bg-white/92 px-4 backdrop-blur-md sm:px-5 lg:left-[var(--app-sidebar-w)]',
+          )}
+        >
+          <Button variant="ghost" size="icon" className="shrink-0 rounded-xl lg:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
+
+          <Link
+            href="/search"
+            className="flex min-w-0 flex-1 items-center gap-3 rounded-full border border-slate-200/90 bg-slate-50/90 px-4 py-2.5 text-sm text-slate-500 transition hover:border-[#03AED2]/35 hover:bg-white"
+          >
+            <Search className="h-4 w-4 shrink-0 text-[#03AED2]" />
+            <span className="truncate">{siteContent.hero.searchPlaceholder}</span>
+          </Link>
+
+          <Button size="sm" asChild className="hidden shrink-0 rounded-full bg-[#03AED2] px-4 text-white shadow-sm hover:bg-[#0294b8] sm:inline-flex">
+            <Link href="/create/article" className="gap-2">
+              <PenLine className="h-4 w-4" />
+              Write
+            </Link>
+          </Button>
+
+          {isAuthenticated ? (
+            <NavbarAuthControls />
+          ) : (
+            <div className="hidden items-center gap-1 sm:flex">
+              <Button variant="ghost" size="sm" asChild className="rounded-full px-3 text-slate-600">
+                <Link href="/login">Sign in</Link>
+              </Button>
+              <Button size="sm" asChild className="rounded-full bg-[#F45B26] px-4 text-white hover:brightness-95">
+                <Link href="/register">Join</Link>
+              </Button>
+            </div>
+          )}
+        </header>
+      </>
+    )
+  }
+
+  const style = variantClasses[recipe.navbar]
 
   return (
     <header className={cn('sticky top-0 z-50 w-full', style.shell)}>
@@ -211,7 +335,7 @@ export function Navbar() {
         <div className="flex min-w-0 flex-1 items-center gap-4 lg:gap-7">
           <Link href="/" className="flex shrink-0 items-center gap-3 whitespace-nowrap pr-2">
             <div className={cn('flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden p-1.5', style.logo)}>
-              <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
+              <img src="/favicon.png?v=20260418" alt={`${SITE_CONFIG.name} logo`} width="48" height="48" className="h-full w-full object-contain" />
             </div>
             <div className="min-w-0 hidden sm:block">
               <span className="block truncate text-xl font-semibold">{SITE_CONFIG.name}</span>
@@ -219,20 +343,7 @@ export function Navbar() {
             </div>
           </Link>
 
-          {isEditorial ? (
-            <div className="hidden min-w-0 flex-1 items-center gap-4 xl:flex">
-              <div className="h-px flex-1 bg-[#d8c8bb]" />
-              {primaryNavigation.map((task) => {
-                const isActive = pathname.startsWith(task.route)
-                return (
-                  <Link key={task.key} href={task.route} className={cn('text-sm font-semibold uppercase tracking-[0.18em] transition-colors', isActive ? 'text-[#2f1d16]' : 'text-[#7b6254] hover:text-[#2f1d16]')}>
-                    {task.label}
-                  </Link>
-                )
-              })}
-              <div className="h-px flex-1 bg-[#d8c8bb]" />
-            </div>
-          ) : isFloating ? (
+          {isFloating ? (
             <div className="hidden min-w-0 flex-1 items-center gap-2 xl:flex">
               {primaryNavigation.map((task) => {
                 const Icon = taskIcons[task.key] || LayoutGrid
@@ -295,7 +406,7 @@ export function Navbar() {
                 <Link href="/login">Sign In</Link>
               </Button>
               <Button size="sm" asChild className={style.cta}>
-                <Link href="/register">{isEditorial ? 'Subscribe' : isUtility ? 'Post Now' : 'Get Started'}</Link>
+                <Link href="/register">{isUtility ? 'Post Now' : 'Get Started'}</Link>
               </Button>
             </div>
           )}

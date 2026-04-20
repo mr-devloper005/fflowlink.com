@@ -6,7 +6,7 @@ export const CATEGORY_OPTIONS: Array<{ name: string; slug: string }> = [
   { name: "Home Improvement", slug: "home-improvement" },
   { name: "Automotive", slug: "automotive" },
   { name: "Travel", slug: "travel" },
-  { name: "Blog", slug: "blog" },
+  { name: "Desk notes", slug: "blog" },
   { name: "Shopping", slug: "shopping" },
   { name: "Service", slug: "service" },
   { name: "Lifestyle", slug: "lifestyle" },

@@ -247,8 +247,26 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
     );
   }
 
+  const detailAccentStrip =
+    task === "image"
+      ? "from-[#03AED2] via-[#F8DE22] to-[#D12052]"
+      : task === "pdf"
+        ? "from-[#03AED2] to-slate-400"
+        : isBookmark
+          ? "from-slate-400 via-[#03AED2] to-[#F45B26]"
+          : isClassified
+            ? "from-[#F45B26] via-[#F8DE22] to-[#D12052]"
+            : "";
+
   return (
-    <div className="min-h-screen bg-background">
+    <div
+      className={cn(
+        "min-h-screen bg-background",
+        isClassified && "bg-[linear-gradient(180deg,#fffbf7_0%,#ffffff_55%)]",
+        task === "pdf" && "bg-[linear-gradient(180deg,#f4f9ff_0%,#ffffff_100%)]",
+        isBookmark && "bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_100%)]",
+      )}
+    >
       <NavbarShell />
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <SchemaJsonLd data={schemaPayload} />
@@ -259,6 +277,13 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
           ← Back to {taskConfig?.label || "posts"}
         </Link>
 
+        {detailAccentStrip ? (
+          <div
+            className={cn("mb-8 h-1.5 w-full max-w-3xl rounded-full bg-gradient-to-r opacity-90", detailAccentStrip)}
+            aria-hidden
+          />
+        ) : null}
+
         <div
           className={cn(
             "grid gap-10",
@@ -267,7 +292,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
         >
           <div className={cn(isClassified ? "space-y-8" : "")}>
             {isArticle ? (
-              <div className="mx-auto w-full max-w-4xl space-y-6">
+              <div className="paper-panel mx-auto w-full max-w-4xl space-y-6 rounded-[2rem] p-6 sm:p-10">
                 <h1 className="text-4xl font-semibold leading-tight text-foreground">
                   {post.title}
                 </h1>
@@ -336,7 +361,7 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
             ) : null}
 
             {isClassified ? (
-              <div className="mx-auto w-full max-w-4xl rounded-2xl border border-border bg-card p-6">
+              <div className="mx-auto w-full max-w-4xl rounded-2xl border border-[#F45B26]/25 bg-card p-6 shadow-[0_20px_50px_rgba(244,91,38,0.08)]">
                 <h2 className="text-lg font-semibold text-foreground">Business details</h2>
                 <div className="mt-4 space-y-3 text-sm text-muted-foreground">
                   {content.website && (
@@ -491,12 +516,18 @@ export async function TaskDetailPage({ task, slug }: { task: TaskKey; slug: stri
                 </Link>
               )}
             </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div
+              className={cn(
+                "grid gap-6 sm:grid-cols-2",
+                task === "article" || task === "comment" ? "lg:grid-cols-2" : "lg:grid-cols-3",
+              )}
+            >
               {related.map((item) => (
                 <TaskPostCard
                   key={item.id}
                   post={item}
                   href={buildPostUrl(task, item.slug)}
+                  taskKey={task}
                 />
               ))}
             </div>
