@@ -100,11 +100,6 @@ export function ArticleFeedTabs({ posts }: { posts: SitePost[] }) {
                   {post.tags?.[0] ? (
                     <span className="rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-600">{post.tags[0]}</span>
                   ) : null}
-                  {post.publishedAt ? (
-                    <time className="text-slate-400" dateTime={post.publishedAt}>
-                      {new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                    </time>
-                  ) : null}
                 </div>
               </div>
               <div className="relative h-44 w-full shrink-0 overflow-hidden rounded-2xl bg-slate-100 sm:h-auto sm:w-[min(38%,280px)] sm:min-h-[140px]">

@@ -9,7 +9,7 @@ export const siteContent = {
   },
   hero: {
     badge: 'This week on Fflowlink',
-    title: ['Reporting worth', 'sitting down with.'],
+    title: [''],
     description:
       'Fflowlink publishes explainers, field reporting, and desk notes for readers who want clarity first—then depth.',
     primaryCta: {

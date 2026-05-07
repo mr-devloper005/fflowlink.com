@@ -132,7 +132,7 @@ export function Footer() {
               </div>
             </div>
           </div>
-          <div className="mt-10 border-t border-white/10 pt-5 text-sm text-slate-400">&copy; {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.</div>
+          <div className="mt-10 border-t border-white/10 pt-5 text-sm text-slate-400">&copy; {SITE_CONFIG.name}. All rights reserved.</div>
         </div>
       </footer>
     )
@@ -166,7 +166,7 @@ export function Footer() {
               </ul>
             </div>
           </div>
-          <div className="mt-10 border-t border-cyan-500/10 pt-6 text-center text-sm text-slate-500">&copy; {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.</div>
+          <div className="mt-10 border-t border-cyan-500/10 pt-6 text-center text-sm text-slate-500">&copy; {SITE_CONFIG.name}. All rights reserved.</div>
         </div>
       </footer>
     )
@@ -199,7 +199,7 @@ export function Footer() {
             </div>
           ))}
         </div>
-        <div className="mt-12 border-t border-slate-200 pt-6 text-center text-sm text-slate-500">&copy; {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.</div>
+        <div className="mt-12 border-t border-slate-200 pt-6 text-center text-sm text-slate-500">&copy; {SITE_CONFIG.name}. All rights reserved.</div>
       </div>
     </footer>
   )
