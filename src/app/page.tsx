@@ -10,11 +10,6 @@ import { SITE_CONFIG, type TaskKey } from '@/lib/site-config'
 import { buildPageMetadata } from '@/lib/seo'
 import { fetchTaskPosts } from '@/lib/task-data'
 import { siteContent } from '@/config/site.content'
-import {
-  SITE_EDITORIAL_HOME,
-  editorialHomeArticleToSitePost,
-  type EditorialHomeArticle,
-} from '@/config/site.editorial.home'
 import { getFactoryState } from '@/design/factory/get-factory-state'
 import { getProductKind, type ProductKind } from '@/design/factory/get-product-kind'
 import type { SitePost } from '@/lib/site-connector'
@@ -276,30 +271,21 @@ function DirectoryHome({ primaryTask, enabledTasks, listingPosts, classifiedPost
 
 function EditorialHome({ primaryTask, articlePosts, supportTasks }: { primaryTask?: EnabledTask; articlePosts: SitePost[]; supportTasks: EnabledTask[] }) {
   const tone = getEditorialTone()
-  const preferApi = SITE_EDITORIAL_HOME.preferApiPostsWhenAvailable
-  const lead: SitePost =
-    preferApi && articlePosts[0]
-      ? articlePosts[0]
-      : editorialHomeArticleToSitePost(SITE_EDITORIAL_HOME.cover as EditorialHomeArticle, 'editorial-cover')
-
-  const shortReads = SITE_EDITORIAL_HOME.shortReads as readonly EditorialHomeArticle[]
-
-  const feedPosts: SitePost[] =
-    preferApi && articlePosts.length > 0
-      ? articlePosts
-      : (SITE_EDITORIAL_HOME.feedFallback as readonly EditorialHomeArticle[]).map((article, index) =>
-          editorialHomeArticleToSitePost(article, `editorial-feed-${index}`),
-        )
+  const lead = articlePosts[0]
+  const shortReads = articlePosts.slice(1, 5)
+  const feedPosts: SitePost[] = articlePosts
 
   return (
     <main className={tone.shell}>
       <section className="motion-reveal-delayed mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-10 lg:py-14">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-start">
           <div className="space-y-6">
-            <span className="editorial-label">
-              <FileText className="h-3.5 w-3.5 text-[#03AED2]" />
-              {siteContent.home.introBadge}
-            </span>
+            {siteContent.home.introBadge?.trim() ? (
+              <span className="editorial-label">
+                <FileText className="h-3.5 w-3.5 text-[#03AED2]" />
+                {siteContent.home.introBadge}
+              </span>
+            ) : null}
             <h1 className={`max-w-3xl text-4xl font-semibold leading-[1.08] tracking-[-0.045em] sm:text-5xl lg:text-[3.15rem] ${tone.title}`}>
               {siteContent.hero.title.join(' ')}
             </h1>
@@ -321,45 +307,49 @@ function EditorialHome({ primaryTask, articlePosts, supportTasks }: { primaryTas
             </div>
           </div>
 
-          <div className="space-y-5">
-            <div className={`overflow-hidden rounded-[1.85rem] ${tone.panel}`}>
-              <div className="grid lg:grid-cols-[1fr_0.95fr]">
-                <div className="relative min-h-[280px] overflow-hidden">
-                  <ContentImage src={getPostImage(lead)} alt={lead.title} fill className="object-cover" />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-slate-950/55 via-transparent to-[#03AED2]/20" />
+            <div className="space-y-5">
+              {lead ? (
+                <div className={`overflow-hidden rounded-[1.85rem] ${tone.panel}`}>
+                  <div className="grid lg:grid-cols-[1fr_0.95fr]">
+                    <div className="relative min-h-[280px] overflow-hidden">
+                      <ContentImage src={getPostImage(lead)} alt={lead.title} fill className="object-cover" />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-slate-950/55 via-transparent to-[#03AED2]/20" />
+                    </div>
+                    <div className="flex flex-col justify-center p-7 lg:p-9">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#D12052]">{lead.tags?.[0] ?? 'Cover story'}</p>
+                      <h2 className="mt-3 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">{lead.title}</h2>
+                      <p className={`mt-4 text-sm leading-7 sm:text-[15px] ${tone.muted}`}>{lead.summary || siteContent.hero.featureCardDescription}</p>
+                      <Link href={`/articles/${lead.slug}`} className={`mt-7 inline-flex w-fit items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold ${tone.action}`}>
+                        Open story
+                        <ArrowRight className="h-4 w-4" />
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-col justify-center p-7 lg:p-9">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#D12052]">{lead.tags?.[0] ?? 'Cover story'}</p>
-                  <h2 className="mt-3 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">{lead.title}</h2>
-                  <p className={`mt-4 text-sm leading-7 sm:text-[15px] ${tone.muted}`}>{lead.summary || siteContent.hero.featureCardDescription}</p>
-                  <Link href={`/articles/${lead.slug}`} className={`mt-7 inline-flex w-fit items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold ${tone.action}`}>
-                    Open story
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                </div>
-              </div>
-            </div>
+              ) : null}
 
-            <aside className={`rounded-[1.75rem] p-6 ${tone.panel}`}>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Short reads</p>
-              <div className="mt-4 space-y-4">
-                {shortReads.map((row) => (
-                  <Link key={row.href} href={row.href} className="block border-b border-slate-200/80 pb-4 last:border-b-0 last:pb-0">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#03AED2]">{row.tag ?? 'Notebook'}</p>
-                    <h3 className="mt-1.5 text-lg font-semibold text-slate-900">{row.title}</h3>
-                    <p className={`mt-2 line-clamp-2 text-sm leading-6 ${tone.muted}`}>{row.summary}</p>
-                  </Link>
-                ))}
-              </div>
-            </aside>
-          </div>
+              {shortReads.length ? (
+                <aside className={`rounded-[1.75rem] p-6 ${tone.panel}`}>
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Short reads</p>
+                  <div className="mt-4 space-y-4">
+                    {shortReads.map((row) => (
+                      <Link key={row.id} href={`/articles/${row.slug}`} className="block border-b border-slate-200/80 pb-4 last:border-b-0 last:pb-0">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[#03AED2]">{row.tags?.[0] ?? 'Notebook'}</p>
+                        <h3 className="mt-1.5 text-lg font-semibold text-slate-900">{row.title}</h3>
+                        <p className={`mt-2 line-clamp-2 text-sm leading-6 ${tone.muted}`}>{row.summary}</p>
+                      </Link>
+                    ))}
+                  </div>
+                </aside>
+              ) : null}
+            </div>
         </div>
 
         <div className="mt-14 lg:mt-16">
           <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.26em] text-slate-500">From the newsroom</p>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">Article samples</h2>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">Latest articles</h2>
             </div>
             <Link href="/articles" className="text-sm font-semibold text-[#03AED2] hover:text-[#D12052]">
               Browse the library
