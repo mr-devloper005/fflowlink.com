@@ -33,6 +33,7 @@ const footerLinks = {
   ],
   resources: [
     { name: 'Help Center', href: '/help' },
+    { name: 'Contact Us', href: '/contact' },
     { name: 'Community', href: '/community' },
     { name: 'Developers', href: '/developers' },
     { name: 'Status', href: '/status' },
@@ -74,6 +75,10 @@ export function Footer() {
                 {task.label}
               </Link>
             ))}
+          </div>
+          <div className="flex flex-wrap gap-4 text-sm text-[#56604b] lg:justify-end">
+            <Link href="/help" className="hover:text-[#1f2617]">Help Center</Link>
+            <Link href="/contact" className="hover:text-[#1f2617]">Contact Us</Link>
           </div>
         </div>
       </footer>
@@ -139,7 +144,11 @@ export function Footer() {
   }
 
   if (recipe.footer === 'editorial-footer') {
-    const companyAboutOnly = footerLinks.company.filter((item) => item.name === 'About')
+    const quickLinks = [
+      { name: 'About', href: '/about' },
+      { name: 'Help Center', href: '/help' },
+      { name: 'Contact Us', href: '/contact' },
+    ]
     return (
       <footer className="border-t border-cyan-500/10 bg-[linear-gradient(180deg,#ffffff_0%,#f3fbfd_100%)] text-slate-900">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -158,9 +167,9 @@ export function Footer() {
               ) : null}
             </div>
             <div>
-              <h4 className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Company</h4>
+              <h4 className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Quick Links</h4>
               <ul className="mt-4 space-y-3 text-sm text-slate-700">
-                {companyAboutOnly.map((item) => (
+                {quickLinks.map((item) => (
                   <li key={item.name}><Link href={item.href} className="hover:text-[#D12052]">{item.name}</Link></li>
                 ))}
               </ul>
