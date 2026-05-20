@@ -8,6 +8,8 @@ import { getProductKind } from "@/design/factory/get-product-kind";
 
 const useArticleSamples = () => getProductKind(getFactoryState().recipe) === "editorial";
 
+const DETAIL_LOOKUP_LIMIT = 1000;
+
 const getTaskContentType = (task: TaskKey) =>
   SITE_CONFIG.tasks.find((item) => item.key === task)?.contentType || task;
 
@@ -77,11 +79,11 @@ export const fetchTaskPostBySlug = async (task: TaskKey, slug: string) => {
     feed?.posts.find((post) => post.slug === slug && getPostType(post) === type) || null;
 
   try {
-    const cachedFeed = await fetchSiteFeed(200);
+    const cachedFeed = await fetchSiteFeed(DETAIL_LOOKUP_LIMIT);
     const cachedMatch = resolveFromFeed(cachedFeed);
     if (cachedMatch) return cachedMatch;
 
-    const freshFeed = await fetchSiteFeed(200, { fresh: true });
+    const freshFeed = await fetchSiteFeed(DETAIL_LOOKUP_LIMIT, { fresh: true });
     const freshMatch = resolveFromFeed(freshFeed);
     if (freshMatch) return freshMatch;
   } catch {
