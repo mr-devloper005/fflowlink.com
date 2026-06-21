@@ -7,23 +7,26 @@ import { SITE_CONFIG } from "@/lib/site-config";
 import { siteIdentity } from "@/config/site.identity";
 
 const highlights = [
-  { label: "Editing standard", value: "Human-led" },
-  { label: "Publishing rhythm", value: "Weekly+" },
-  { label: "House rule", value: "Clarity first" },
+  { label: "Content model", value: "Multi-format" },
+  { label: "Publishing flow", value: "Original posts" },
+  { label: "Core priority", value: "Clarity first" },
 ];
 
 const values = [
   {
-    title: "Field notes over hot takes",
-    description: "We prefer reporting you can follow—and revisit next month—over velocity for its own sake.",
+    title: "Built for reading and discovery",
+    description:
+      `${SITE_CONFIG.name} supports articles, listings, classifieds, image posts, profiles, and resources in one consistent experience so users can move between formats without friction.`,
   },
   {
-    title: "Sources on the record when it counts",
-    description: "When anonymity is necessary, we say why and how we corroborated what we could not name.",
+    title: "Original content over placeholders",
+    description:
+      "We prioritize real published posts and practical metadata so every section reflects live, meaningful content rather than static sample fillers.",
   },
   {
-    title: "Reader mail shapes the backlog",
-    description: "Replies and corrections land in the same queue as pitches; both can change what we publish next.",
+    title: "Clean structure, useful navigation",
+    description:
+      "From homepage highlights to task pages and search, the site is organized to help readers and customers find information quickly and take action with confidence.",
   },
 ];
 
@@ -43,12 +46,12 @@ export default function AboutPage() {
           <CardContent className="space-y-4 p-6">
             <Badge variant="secondary">Our story</Badge>
             <h2 className="text-2xl font-semibold text-foreground">
-              An independent desk for readers who read the footnotes.
+              A focused publishing website for high-signal content and business discovery.
             </h2>
             <p className="text-sm text-muted-foreground">
-              {SITE_CONFIG.name} publishes explainers, investigations, and short desk notes—edited for calm pacing and
-              honest context. We are not a marketplace and not a growth experiment; we are a small editorial team trying
-              to leave the page better than we found it.
+              {SITE_CONFIG.name} brings together editorial content and structured discovery surfaces in a single platform.
+              Whether someone is reading an article, exploring listings, or checking profiles, the goal stays the same:
+              make information easier to understand, navigate, and use.
             </p>
             <div className="grid gap-4 sm:grid-cols-3">
               {highlights.map((item) => (

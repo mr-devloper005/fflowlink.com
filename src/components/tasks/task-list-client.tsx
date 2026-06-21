@@ -6,7 +6,6 @@ import { buildPostUrl } from "@/lib/task-data";
 import { normalizeCategory, isValidCategory } from "@/lib/categories";
 import type { TaskKey } from "@/lib/site-config";
 import type { SitePost } from "@/lib/site-connector";
-import { getLocalPostsForTask } from "@/lib/local-posts";
 
 type Props = {
   task: TaskKey;
@@ -16,24 +15,8 @@ type Props = {
 };
 
 export function TaskListClient({ task, initialPosts, category, gridClassName }: Props) {
-  const localPosts = getLocalPostsForTask(task);
-
   const merged = useMemo(() => {
-    const bySlug = new Set<string>();
-    const combined: Array<SitePost & { localOnly?: boolean; task?: TaskKey }> = [];
-
-    localPosts.forEach((post) => {
-      if (post.slug) {
-        bySlug.add(post.slug);
-      }
-      combined.push(post);
-    });
-
-    initialPosts.forEach((post) => {
-      if (post.slug && bySlug.has(post.slug)) return;
-      combined.push(post);
-    });
-
+    const combined: Array<SitePost & { localOnly?: boolean; task?: TaskKey }> = [...initialPosts];
     const normalizedCategory = category ? normalizeCategory(category) : "all";
     if (normalizedCategory === "all") {
       return combined.filter((post) => {
@@ -51,7 +34,7 @@ export function TaskListClient({ task, initialPosts, category, gridClassName }: 
           : "";
       return value === normalizedCategory;
     });
-  }, [category, initialPosts, localPosts]);
+  }, [category, initialPosts]);
 
   if (!merged.length) {
     return (

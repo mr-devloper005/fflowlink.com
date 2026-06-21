@@ -36,7 +36,7 @@ export const siteContent = {
         'Field reporting, line edits, and the occasional manifesto on how we publish—written to be read, not skimmed.',
       keywords: ['Fflowlink', 'articles', 'reporting', 'explainers', 'newsroom', 'independent'],
     },
-    introBadge: 'Newsroom',
+    introBadge: '',
     introTitle: 'Stories filed with care, edited for busy readers.',
     introParagraphs: [
       'We publish on a steady beat: investigations when the facts warrant them, explainers when confusion is high, and desk notes when the newsroom itself has something to say.',
